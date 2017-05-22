@@ -16,6 +16,7 @@ public class Main {
 		// Initialize Commands, Initialize Messages at application StartUp
 		CommandInterpreter commandInterpreter = new CommandInterpreter();
 		MessageLoader.intializeMessageLoader();
+		ParkingLotManager.intializeParkingLot();
 		switch (args.length) {
 		case 0:
 			MessageLoader.showMessage("welcome.message");

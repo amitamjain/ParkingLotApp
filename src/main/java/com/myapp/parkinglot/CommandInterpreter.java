@@ -14,12 +14,9 @@ import java.lang.reflect.Method;
  */
 public class CommandInterpreter {
 	
-	static ParkingLot parkingLot;
-	
 
 	public CommandInterpreter() {
 		Command.loadCommands();
-		parkingLot = new ParkingLot();
 	}
 
 	public void parseTextInput(String inputString) {
@@ -31,7 +28,7 @@ public class CommandInterpreter {
 			} else if (inputs.length == 1) {
 				Method method = Command.commandsMap.get(inputString);
 				if (method != null) {
-					method.invoke(parkingLot);
+					method.invoke(ParkingLotManager.getParkingLot());
 				} else {
 					MessageLoader.showMessage("invalid.input");
 				}
@@ -44,14 +41,15 @@ public class CommandInterpreter {
 				}
 				Method method = Command.commandsMap.get(inputs[0]);
 				if (method != null) {
-					method.invoke(parkingLot, methodParams);
+					method.invoke(ParkingLotManager.getParkingLot(), methodParams);
 				} else {
 					MessageLoader.showMessage("invalid.input");
 				}
 			}
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+		}
+		catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
 	}

@@ -19,7 +19,7 @@ import java.io.ByteArrayOutputStream;
  *
  * May 21, 2017
  */
-public class ParkingLotTest { ParkingLot parkingLot = new ParkingLot();
+public class ParkingLotTest { ParkingLot parkingLot = new ParkingLot(new ClosestParkingStrategy());
 private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 @Before
 public void setUpStreams() {
@@ -32,8 +32,8 @@ public void cleanUpStreams() {
 }
 @Test
 public void createParkingLot() throws Exception {
-    parkingLot.createParkingLot("6");
-    assertEquals(6, parkingLot.MAX_PARKING_SPACE);
+    parkingLot.createSlot("6");
+    assertEquals(6, parkingLot.maxSlots);
     assertEquals(6, parkingLot.availableSlotList.size());
     assertTrue("Createdparkinglotwith6spaces".equalsIgnoreCase(outContent.toString().trim().replace(" ", "")));
 }
@@ -42,7 +42,7 @@ public void createParkingLot() throws Exception {
 public void park() throws Exception {
     parkingLot.park("KA-01-HH-1234", "White");   
     assertEquals("Sorry,parkinglotisnotcreated", outContent.toString().trim().replace(" ", ""));
-    parkingLot.createParkingLot("6");
+    parkingLot.createSlot("6");
     parkingLot.park("KA-01-HH-1234", "White");
     parkingLot.park("KA-01-HH-9999", "White");
     assertEquals(4, parkingLot.availableSlotList.size());
@@ -52,7 +52,7 @@ public void park() throws Exception {
 public void leave() throws Exception {
     parkingLot.leave("2");
     assertEquals("Sorry,parkinglotisnotcreated", outContent.toString().trim().replace(" ", ""));
-    parkingLot.createParkingLot("6");
+    parkingLot.createSlot("6");
     parkingLot.park("KA-01-HH-1234", "White");
     parkingLot.park("KA-01-HH-9999", "White");
     parkingLot.leave("4");
@@ -71,7 +71,7 @@ public void leave() throws Exception {
 public void status() throws Exception {
     parkingLot.status();
     assertEquals("Sorry,parkinglotisnotcreated", outContent.toString().trim().replace(" ", ""));
-    parkingLot.createParkingLot("6");
+    parkingLot.createSlot("6");
     parkingLot.park("KA-01-HH-1234", "White");
     parkingLot.park("KA-01-HH-9999", "White");
     parkingLot.status();
@@ -92,7 +92,7 @@ public void status() throws Exception {
 public void getRegistrationNumbersFromColor() throws Exception {
     parkingLot.getRegistrationNumbersFromColor("White");
     assertEquals("Sorry,parkinglotisnotcreated", outContent.toString().trim().replace(" ", ""));
-    parkingLot.createParkingLot("6");
+    parkingLot.createSlot("6");
     parkingLot.park("KA-01-HH-1234", "White");
     parkingLot.park("KA-01-HH-9999", "White");
     parkingLot.getRegistrationNumbersFromColor("White");
@@ -123,7 +123,7 @@ public void getRegistrationNumbersFromColor() throws Exception {
 public void getSlotNumbersFromColor() throws Exception {
     parkingLot.getSlotNumbersFromColor("White");
     assertEquals("Sorry,parkinglotisnotcreated", outContent.toString().trim().replace(" ", ""));
-    parkingLot.createParkingLot("6");
+    parkingLot.createSlot("6");
     parkingLot.park("KA-01-HH-1234", "White");
     parkingLot.park("KA-01-HH-9999", "White");
     parkingLot.getSlotNumbersFromColor("White");
@@ -155,7 +155,7 @@ public void getSlotNumbersFromColor() throws Exception {
 public void getSlotNumberFromRegNo() throws Exception {
     parkingLot.getSlotNumberFromRegistrationNumber("KA-01-HH-1234");
     assertEquals("Sorry,parkinglotisnotcreated", outContent.toString().trim().replace(" ", ""));
-    parkingLot.createParkingLot("6");
+    parkingLot.createSlot("6");
     parkingLot.park("KA-01-HH-1234", "White");
     parkingLot.park("KA-01-HH-9999", "White");
     parkingLot.getSlotNumberFromRegistrationNumber("KA-01-HH-1234");
