@@ -34,9 +34,10 @@ public class Command {
 		
 		try {
 
-			input = getClass().getClassLoader().getResourceAsStream(this.COMMAND_PROPERTIES);
+			input = getClass().getClassLoader().getResourceAsStream(COMMAND_PROPERTIES);
 			if (input == null) {
-				System.out.println("Sorry, unable to find " + this.COMMAND_PROPERTIES);
+				MessageLoader.showMessage("file.load.error"); 
+				System.out.println(COMMAND_PROPERTIES);
 				return;
 			}
 

@@ -76,7 +76,7 @@ public class MessageLoader {
 			String message = messagesMap.get(key);
 			return message;
 		} else {
-			return null;
+			return "";
 		}
 	}
 	

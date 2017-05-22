@@ -49,11 +49,10 @@ public class ParkingLot {
         }
 	}
     public void park(String registrationNumber, String color) {
-        if (this.maxSlots == 0) {
-            System.out.println("Sorry, parking lot is not created");
-            System.out.println();
-        } else if (this.slotCarMap.size() == this.maxSlots) {
-            System.out.println("Sorry, parking lot is full");
+    	if (!isParkingLotCreated()) {
+        	return ; 
+        }  else if (this.slotCarMap.size() == this.maxSlots) {
+            MessageLoader.showMessage("parking.full.error");
             System.out.println();
         } else {
             String slot = String.valueOf(parkingStrategy.getAvailableSlot(availableSlotList));
@@ -75,10 +74,9 @@ public class ParkingLot {
         }
     }
     public void leave(String slotNo) {
-        if (this.maxSlots == 0) {
-            System.out.println("Sorry, parking lot is not created");
-            System.out.println();
-        } else if (this.slotCarMap.size() > 0) {
+    	if (!isParkingLotCreated()) {
+        	return ; 
+        }  else if (this.slotCarMap.size() > 0) {
             Car carToLeave = this.slotCarMap.get(slotNo);
             if (carToLeave != null) {
                 this.slotCarMap.remove(slotNo);
@@ -96,15 +94,14 @@ public class ParkingLot {
                 System.out.println();
             }
         } else {
-            System.out.println("Parking lot is empty");
+            MessageLoader.getMessage("empty.parkinglot.error");
             System.out.println();
         }
     }
     public void status() {
-        if (this.maxSlots == 0) {
-            System.out.println("Sorry, parking lot is not created");
-            System.out.println();
-        } else if (this.slotCarMap.size() > 0) {
+    	if (!isParkingLotCreated()) {
+        	return ; 
+        }  else if (this.slotCarMap.size() > 0) {
             // Print the current status.
             System.out.println("Slot No.\tRegistration No.\tColor");
             Car car;
@@ -117,15 +114,14 @@ public class ParkingLot {
             }
             System.out.println();
         } else {
-            System.out.println("Parking lot is empty");
+        	MessageLoader.getMessage("empty.parkinglot.error");
             System.out.println();
         }
     }
     public void getRegistrationNumbersFromColor(String color) {
-        if (this.maxSlots == 0) {
-            System.out.println("Sorry, parking lot is not created");
-            System.out.println();
-        } else if (this.colorRegMap.containsKey(color)) {
+    	if (!isParkingLotCreated()) {
+        	return ; 
+        }  else if (this.colorRegMap.containsKey(color)) {
             ArrayList<String> registrationNumberList = this.colorRegMap.get(color);
             System.out.println();
             for (int i=0; i < registrationNumberList.size(); i++) {
@@ -136,14 +132,13 @@ public class ParkingLot {
                 }
             }
         } else {
-            System.out.println("Not found");
+        	MessageLoader.showMessage("input.notFound.error");
             System.out.println();
         }
     }
     public void getSlotNumbersFromColor(String color) {
-        if (this.maxSlots == 0) {
-            System.out.println("Sorry, parking lot is not created");
-            System.out.println();
+    	if (!isParkingLotCreated()) {
+        	return ; 
         } else if (this.colorRegMap.containsKey(color)) {
             ArrayList<String> registrationNumberList = this.colorRegMap.get(color);
             ArrayList<Integer> slotList = new ArrayList<Integer>();
@@ -161,19 +156,29 @@ public class ParkingLot {
             }
             System.out.println();
         } else {
-            System.out.println("Not found");
+            MessageLoader.showMessage("input.notFound.error");
             System.out.println();
         }
     }
     public void getSlotNumberFromRegistrationNumber(String registrationNumber) {
-        if (this.maxSlots == 0) {
-            System.out.println("Sorry, parking lot is not created");
-            System.out.println();
+        if (!isParkingLotCreated()) {
+        	return ; 
         } else if (this.regSlotMap.containsKey(registrationNumber)) {
             System.out.println(this.regSlotMap.get(registrationNumber));
         } else {
-            System.out.println("Not found");
+        	MessageLoader.showMessage("input.notFound.error");
             System.out.println();
         }
     }
+    
+    public boolean isParkingLotCreated(){
+    	if (this.maxSlots == 0) {
+        	MessageLoader.showMessage("parking.notcreated.error");
+            System.out.println();
+            return false;
+        }else 
+        	return true; 
+    
+    }
+    
 }
